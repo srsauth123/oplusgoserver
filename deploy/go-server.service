@@ -1,0 +1,22 @@
+[Unit]
+Description=Go Server - OPPO/Realme Tool Proxy
+After=network.target mysql.service
+Wants=mysql.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/go-server
+ExecStart=/opt/go-server/server-linux /opt/go-server/config.yaml
+Restart=always
+RestartSec=5
+LimitNOFILE=65536
+
+Environment=GIN_MODE=release
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
