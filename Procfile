@@ -1,0 +1,1 @@
+web: ./server config.yaml

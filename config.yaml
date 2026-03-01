@@ -1,0 +1,56 @@
+server:
+  port: 8080
+
+database:
+  host: 127.0.0.1
+  port: 3306
+  user: auth
+  password: RCGeAS8L3YwdSfGN
+  dbname: auth
+
+telegram:
+  bot_token: "your_bot_token_here"
+  chat_id: "your_chat_id_here"
+
+admin:
+  username: admin
+  password: admin123
+  jwt_secret: "your_jwt_secret_key_change_this"
+
+verify_url: "https://verify-server.example.com/api/verify"
+
+site_sig: "your_site_signature"
+
+sign_servers:
+  sg: "192.168.1.100"
+  in: "192.168.1.101"
+
+rcsm:
+  secrets:
+    work_id_1: "secret_key_1"
+    work_id_2: "secret_key_2"
+  urls:
+    login:
+      sg: "http://rcsm-sg.example.com/api/login"
+      in: "http://rcsm-in.example.com/api/login"
+    sign:
+      sg: "http://rcsm-sg.example.com/api/sign"
+      in: "http://rcsm-in.example.com/api/sign"
+
+certs:
+  global:
+    version: 1
+    cert: "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+  in:
+    version: 1
+    cert: "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+
+rsa:
+  public_key: |
+    -----BEGIN PUBLIC KEY-----
+    YOUR_PUBLIC_KEY_HERE
+    -----END PUBLIC KEY-----
+  private_key: |
+    -----BEGIN PRIVATE KEY-----
+    YOUR_PRIVATE_KEY_HERE
+    -----END PRIVATE KEY-----
