@@ -1,5 +1,0 @@
-[build]
-  builder = "go"
-
-[deploy]
-  startCommand = "./server config.yaml"
