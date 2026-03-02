@@ -2,20 +2,20 @@ server:
   port: 8080
 
 database:
-  host: 127.0.0.1
+  host: mysql.railway.internal
   port: 3306
-  user: auth
-  password: RCGeAS8L3YwdSfGN
-  dbname: auth
+  user: root
+  password: qDByOJpPjcxSxHmFURmasVfqPqcPirzO
+  dbname: railway
 
 telegram:
-  bot_token: "your_bot_token_here"
-  chat_id: "your_chat_id_here"
+  bot_token: ""
+  chat_id: ""
 
 admin:
   username: admin
-  password: admin123
-  jwt_secret: "your_jwt_secret_key_change_this"
+  password: ?>solHo8DgE7VT%F
+  jwt_secret: rabc123def456ghi789jkl012mno345pqr
 
 verify_url: "https://verify-server.example.com/api/verify"
 
@@ -40,17 +40,17 @@ rcsm:
 certs:
   global:
     version: 1
-    cert: "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+    cert: "-----BEGIN CERTIFICATE-----\nMIIB...\n-----END CERTIFICATE-----"
   in:
     version: 1
-    cert: "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"
+    cert: "-----BEGIN CERTIFICATE-----\nMIIB...\n-----END CERTIFICATE-----"
 
 rsa:
   public_key: |
     -----BEGIN PUBLIC KEY-----
-    YOUR_PUBLIC_KEY_HERE
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...
     -----END PUBLIC KEY-----
   private_key: |
     -----BEGIN PRIVATE KEY-----
-    YOUR_PRIVATE_KEY_HERE
+    MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC...
     -----END PRIVATE KEY-----
