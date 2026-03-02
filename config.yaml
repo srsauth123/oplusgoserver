@@ -5,7 +5,7 @@ database:
   host: mysql.railway.internal
   port: 3306
   user: root
-  password: UHPMUHsiObrRPdWEecyzQjZNLILnhvBM
+  password: qDByOJpPjcxSxHmFURmasVfqPqcPirzO
   dbname: railway
 
 telegram:
