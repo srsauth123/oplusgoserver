@@ -69,45 +69,31 @@ func Load(path string) (*Config, error) {
 	}
 
 	// Override with environment variables if they exist
-	// Priority: MYSQL_* (Railway) > DATABASE_* > config.yaml
 	if port := os.Getenv("PORT"); port != "" {
 		if p, err := strconv.Atoi(port); err == nil {
 			cfg.Server.Port = p
 		}
 	}
 
-	// Railway MySQL environment variables (takes priority)
-	if host := os.Getenv("MYSQLHOST"); host != "" {
-		cfg.Database.Host = host
-	} else if host := os.Getenv("DATABASE_HOST"); host != "" {
+	if host := os.Getenv("DATABASE_HOST"); host != "" {
 		cfg.Database.Host = host
 	}
 
-	if port := os.Getenv("MYSQLPORT"); port != "" {
-		if p, err := strconv.Atoi(port); err == nil {
-			cfg.Database.Port = p
-		}
-	} else if port := os.Getenv("DATABASE_PORT"); port != "" {
+	if port := os.Getenv("DATABASE_PORT"); port != "" {
 		if p, err := strconv.Atoi(port); err == nil {
 			cfg.Database.Port = p
 		}
 	}
 
-	if user := os.Getenv("MYSQLUSER"); user != "" {
-		cfg.Database.User = user
-	} else if user := os.Getenv("DATABASE_USER"); user != "" {
+	if user := os.Getenv("DATABASE_USER"); user != "" {
 		cfg.Database.User = user
 	}
 
-	if password := os.Getenv("MYSQLPASSWORD"); password != "" {
-		cfg.Database.Password = password
-	} else if password := os.Getenv("DATABASE_PASSWORD"); password != "" {
+	if password := os.Getenv("DATABASE_PASSWORD"); password != "" {
 		cfg.Database.Password = password
 	}
 
-	if dbname := os.Getenv("MYSQLDATABASE"); dbname != "" {
-		cfg.Database.DBName = dbname
-	} else if dbname := os.Getenv("DATABASE_NAME"); dbname != "" {
+	if dbname := os.Getenv("DATABASE_NAME"); dbname != "" {
 		cfg.Database.DBName = dbname
 	}
 
