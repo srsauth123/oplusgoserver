@@ -1,15 +1,5 @@
-name = oplus-server
-main = "main.go"
-
-[env.production]
-vars = { PORT = "8080" }
-
-[[services]]
-name = "db"
-type = "postgres"  # Change to your database type
-
 [build]
-builder = "go"
+  builder = "go"
 
 [deploy]
-startCommand = "./server config.yaml"
+  startCommand = "./server config.yaml"
