@@ -2,7 +2,7 @@ server:
   port: 8080
 
 database:
-  host: mysql.railway.internal
+  host: mysql
   port: 3306
   user: root
   password: qDByOJpPjcxSxHmFURmasVfqPqcPirzO
