@@ -1,4 +1,4 @@
-package internal
+package config
 
 import (
 	"os"
@@ -8,45 +8,120 @@ import (
 )
 
 type Config struct {
-	Server struct {
-		Name string `yaml:"name"`
-	}
-
-	Database struct {
-		Host string
-		Port int
-		User string
-		Password string
-		Name string
-	}
-
-	Admin struct {
-		Username string
-		Password string
-	}
-
-	JWTSecret string
+	Server      ServerConfig          `yaml:"server"`
+	Database    DatabaseConfig        `yaml:"database"`
+	Telegram    TelegramConfig        `yaml:"telegram"`
+	Admin       AdminConfig           `yaml:"admin"`
+	SiteSig     string                `yaml:"site_sig"`
+	VerifyURL   string                `yaml:"verify_url"`
+	SignServers map[string]string     `yaml:"sign_servers"`
+	RCSM        RCSMConfig            `yaml:"rcsm"`
+	Certs       map[string]CertConfig `yaml:"certs"`
+	RSA         RSAConfig             `yaml:"rsa"`
 }
 
-func LoadConfig() (*Config, error) {
+type ServerConfig struct {
+	Port int `yaml:"port"`
+}
 
-	cfg := &Config{}
+type DatabaseConfig struct {
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
+	DBName   string `yaml:"dbname"`
+}
 
-	file, err := os.ReadFile("config/config.yaml")
-	if err == nil {
-		yaml.Unmarshal(file, cfg)
+type TelegramConfig struct {
+	BotToken string `yaml:"bot_token"`
+	ChatID   string `yaml:"chat_id"`
+}
+
+type AdminConfig struct {
+	Username  string `yaml:"username"`
+	Password  string `yaml:"password"`
+	JWTSecret string `yaml:"jwt_secret"`
+}
+
+type RCSMConfig struct {
+	Secrets map[string]string            `yaml:"secrets"`
+	URLs    map[string]map[string]string `yaml:"urls"`
+}
+
+type CertConfig struct {
+	Version int64  `yaml:"version"`
+	Cert    string `yaml:"cert"`
+}
+
+type RSAConfig struct {
+	PublicKey  string `yaml:"public_key"`
+	PrivateKey string `yaml:"private_key"`
+}
+
+func Load(path string) (*Config, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	var cfg Config
+	if err := yaml.Unmarshal(data, &cfg); err != nil {
+		return nil, err
 	}
 
-	cfg.Database.Host = os.Getenv("DATABASE_HOST")
-	cfg.Database.User = os.Getenv("DATABASE_USER")
-	cfg.Database.Password = os.Getenv("DATABASE_PASSWORD")
-	cfg.Database.Name = os.Getenv("DATABASE_NAME")
+	// Override with environment variables if they exist
+	// Priority: MYSQL_* (Railway) > DATABASE_* > config.yaml
+	if port := os.Getenv("PORT"); port != "" {
+		if p, err := strconv.Atoi(port); err == nil {
+			cfg.Server.Port = p
+		}
+	}
 
-	port, _ := strconv.Atoi(os.Getenv("DATABASE_PORT"))
-	cfg.Database.Port = port
+	// Railway MySQL environment variables (takes priority)
+	if host := os.Getenv("MYSQLHOST"); host != "" {
+		cfg.Database.Host = host
+	} else if host := os.Getenv("DATABASE_HOST"); host != "" {
+		cfg.Database.Host = host
+	}
 
-	cfg.Admin.Password = os.Getenv("ADMIN_PASSWORD")
-	cfg.JWTSecret = os.Getenv("JWT_SECRET")
+	if port := os.Getenv("MYSQLPORT"); port != "" {
+		if p, err := strconv.Atoi(port); err == nil {
+			cfg.Database.Port = p
+		}
+	} else if port := os.Getenv("DATABASE_PORT"); port != "" {
+		if p, err := strconv.Atoi(port); err == nil {
+			cfg.Database.Port = p
+		}
+	}
 
-	return cfg, nil
+	if user := os.Getenv("MYSQLUSER"); user != "" {
+		cfg.Database.User = user
+	} else if user := os.Getenv("DATABASE_USER"); user != "" {
+		cfg.Database.User = user
+	}
+
+	if password := os.Getenv("MYSQLPASSWORD"); password != "" {
+		cfg.Database.Password = password
+	} else if password := os.Getenv("DATABASE_PASSWORD"); password != "" {
+		cfg.Database.Password = password
+	}
+
+	if dbname := os.Getenv("MYSQLDATABASE"); dbname != "" {
+		cfg.Database.DBName = dbname
+	} else if dbname := os.Getenv("DATABASE_NAME"); dbname != "" {
+		cfg.Database.DBName = dbname
+	}
+
+	if username := os.Getenv("ADMIN_USERNAME"); username != "" {
+		cfg.Admin.Username = username
+	}
+
+	if password := os.Getenv("ADMIN_PASSWORD"); password != "" {
+		cfg.Admin.Password = password
+	}
+
+	if secret := os.Getenv("JWT_SECRET"); secret != "" {
+		cfg.Admin.JWTSecret = secret
+	}
+
+	return &cfg, nil
 }
