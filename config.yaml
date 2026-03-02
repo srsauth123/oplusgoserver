@@ -1,12 +1,12 @@
 server:
-  port: ${{PORT:8080}}
+  port: 8080
 
 database:
-  host: ${{DATABASE_HOST:localhost}}
-  port: ${{DATABASE_PORT:3306}}
-  user: ${{DATABASE_USER:root}}
-  password: ${{DATABASE_PASSWORD:password}}
-  dbname: ${{DATABASE_NAME:railway}}
+  host: mysql.railway.internal
+  port: 3306
+  user: root
+  password: qDByOJpPjcxSxHmFURmasVfqPqcPirzO
+  dbname: railway
 
 telegram:
   bot_token: ""
