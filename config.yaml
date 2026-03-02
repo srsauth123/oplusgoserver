@@ -2,10 +2,10 @@ server:
   port: 8080
 
 database:
-  host: mysql
+  host: mysql.railway.internal
   port: 3306
   user: root
-  password: qDByOJpPjcxSxHmFURmasVfqPqcPirzO
+  password: UHPMUHsiObrRPdWEecyzQjZNLILnhvBM
   dbname: railway
 
 telegram:
